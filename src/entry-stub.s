@@ -5,6 +5,5 @@ _init:
 	nop
 
 section reset
-	; FIXME: doesn't work
 	jmp _init
 align 16
