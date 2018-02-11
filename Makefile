@@ -2,10 +2,6 @@
 # This code is distributed under the LICENSE that can be found in the package
 # (LICENSE.md)
 
-# Set this if tthey are not set up already
-as ?= nasm
-asflags ?= -fbin
-
 # Set some useful variables
 override name = svmbios
 override vers = 0-0-0-0
@@ -41,4 +37,4 @@ all:
 endif
 
 clean:
-	rm -rf $(file).bin
+	$(MAKE) -C src clean
