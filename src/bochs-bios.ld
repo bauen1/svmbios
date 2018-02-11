@@ -1,7 +1,7 @@
 OUTPUT_FORMAT(binary)
 
 rom_start = 0xFFFF0000;
-rom_end   = 0xFFFFFFFF
+rom_end   = 0xFFFFFFFF;
 
 MEMORY {
 	ROM (rx) : org = rom_start, len = 0xFFFF
