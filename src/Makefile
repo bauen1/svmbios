@@ -13,22 +13,25 @@ OBJS:=entry-stub.o
 %.o: %.s
 	$(AS) $(ASFLAGS) -o $@ $<
 
-bios.bin: bios.ld $(OBJS)
-	$(LD) $(LDFLAGS) -T bios.ld -o $@ $(OBJS)
+bochs-bios.bin: bochs-bios.ld $(OBJS)
+	$(LD) $(LDFLAGS) -T $< -o $@ $(OBJS)
+
+qemu-bios.bin: qemu-bios.ld $(OBJS)
+	$(LD) $(LDFLAGS) -T $< -o $@ $(OBJS)
 
 .PHONY: all-qemu
-all-qemu: bios.bin
+all-qemu: qemu-bios.bin
 
 .PHONY: all-bochs
-all-bochs: bios.bin
+all-bochs: bochs-bios.bin
 
 .PHONY: run-bochs
-run-bochs: bios.bin bochs.cfg
+run-bochs: bochs-bios.bin bochs.cfg
 	bochs -qf bochs.cfg
 
 .PHONY: run-qemu
-run-qemu: bios.bin
-	qemu-system-i386 -bios bios.bin
+run-qemu: qemu-bios.bin
+	qemu-system-i386 -bios bios.bin -debugcon stdio
 
 .PHONY: clean
 clean:

@@ -1,7 +1,9 @@
 OUTPUT_FORMAT(binary)
 
+rom_start = 0x000F0000;
+
 MEMORY {
-	ROM (rx) : org = 0xFFFF0000, len = 0xFFFF
+	ROM (rx) : org = rom_start, len = 0xFFFF
 }
 
 SECTIONS {
@@ -10,7 +12,7 @@ SECTIONS {
 		*(main)
 	} > ROM
 
-	.reset 0xFFFFFFF0 : ALIGN(0x10){
+	.reset rom_start - 0x10 : ALIGN(0x10){
 		*(reset)
 	}
 }
