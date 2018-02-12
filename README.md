@@ -8,6 +8,7 @@ To build it for qemu, clone this repo and run:
 ```bash
 make target=qemu
 ```
+
 Or for bochs:
 ```bash
 make target=bochs

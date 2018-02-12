@@ -31,6 +31,7 @@ disable_nmi:
 	out 0x70, al
 	ret
 .end:
+
 global enable_nmi:function (enable_nmi.end - enable_nmi)
 enable_nmi:
 	in al, 0x70
