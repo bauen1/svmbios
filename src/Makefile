@@ -31,7 +31,7 @@ run-bochs: bochs-bios.bin bochs.cfg
 
 .PHONY: run-qemu
 run-qemu: qemu-bios.bin
-	qemu-system-i386 -bios bios.bin -debugcon stdio
+	qemu-system-i386 -bios qemu-bios.bin -debugcon stdio
 
 .PHONY: clean
 clean:
