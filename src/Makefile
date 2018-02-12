@@ -3,7 +3,7 @@
 # (LICENSE.md)
 
 AS:= nasm
-ASFLAGS:= -felf
+ASFLAGS:= -felf -g -Fdwarf
 LD:= ld
 LDFLAGS:= -m elf_i386
 
