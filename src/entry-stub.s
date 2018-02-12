@@ -11,9 +11,15 @@ _init:
 	mov ss, ax
 
 	mov al, '!'
-	out 0xe9, al
+	call debug_putc
 
 	jmp _halt
+.end:
+
+global debug_putc:function (debug_putc.end - debug_putc)
+debug_putc:
+	out 0xe9, al
+	ret
 .end:
 
 global _halt:function (_halt.end - _halt)
