@@ -1,5 +1,6 @@
 [BITS 16]
 section .init
+extern lgdt_ptr
 global _init:function (_init.end - _init)
 _init:
 	cli
@@ -20,10 +21,15 @@ _init:
 	call disable_nmi
 	call enable_a20
 
-	mov al, '!'
-	call debug_putc
+	; load the gdt
+	o32 lgdt [lgdt_ptr]
 
-	jmp _halt
+	; enable Protected Mode
+	mov eax, cr0
+	or al, 1
+	mov cr0, eax
+
+	jmp dword 0x08:b32
 .end:
 
 section .text
@@ -67,6 +73,27 @@ _halt:
 .loop:
 	hlt
 	jmp .loop
+.end:
+
+[BITS 32]
+extern main
+global b32:function (b32.end - b32)
+b32:
+	mov ax, 0x10
+	mov ds, ax
+	mov es, ax
+	mov fs, ax
+	mov gs, ax
+	mov ss, ax
+	mov esp, 0x7000
+
+	mov al, '#'
+	out 0xe9, al
+
+	cli
+.halt:
+	hlt
+	jmp .halt
 .end:
 
 section reset

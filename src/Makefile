@@ -8,7 +8,7 @@ LD:= ld
 LDFLAGS:= -m elf_i386
 
 # Add objs here
-OBJS:=entry-stub.o
+OBJS:=entry-stub.o gdt.o
 
 %.o: %.s
 	$(AS) $(ASFLAGS) -o $@ $<
