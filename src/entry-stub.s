@@ -5,7 +5,14 @@ _init:
 	cli
 	cld
 
-	; should always be mapped
+	; setup the segment registers
+	mov ax, cs
+	mov ds, ax
+	mov es, ax
+	mov fs, ax
+	mov gs, ax
+
+	; The memory at 0x0-0x7fff is mapped at reset
 	mov esp, 0x7000
 	mov ax, 0x0
 	mov ss, ax
@@ -49,5 +56,6 @@ _halt:
 .end:
 
 section reset
+[BITS 16]
 	jmp 0xf000:0x0
 align 16
