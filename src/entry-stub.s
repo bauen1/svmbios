@@ -1,6 +1,5 @@
 [BITS 16]
-section .text
-
+section .init
 global _init:function (_init.end - _init)
 _init:
 	cli
@@ -27,6 +26,7 @@ _init:
 	jmp _halt
 .end:
 
+section .text
 global debug_putc:function (debug_putc.end - debug_putc)
 debug_putc:
 	out 0xe9, al
