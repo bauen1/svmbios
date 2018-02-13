@@ -2,16 +2,23 @@
 # This code is distributed under the LICENSE that can be found in the package
 # (LICENSE.md)
 
+CC:= gcc
+#CC:= tcc
+CFLAGS:= -I ./include -ffreestanding -nostdlib
 AS:= nasm
 ASFLAGS:= -felf -g -Fdwarf
 LD:= ld
 LDFLAGS:= -m elf_i386
 
 # Add objs here
-OBJS:=entry-stub.o gdt.o
+OBJS:=entry-stub.o gdt.o hello_world.o
+DEPS:=$(OBJS:.o=.d)
 
 %.o: %.s
-	$(AS) $(ASFLAGS) -o $@ $<
+	$(AS) $(ASFLAGS) -o $@ $< -MD $*.d
+
+%.o: %.c
+	$(CC) $(CFLAGS) -o $@ -c $< -MD
 
 bios.bin: bios.ld $(OBJS)
 	$(LD) $(LDFLAGS) -T $< -o $@ $(OBJS)
@@ -32,4 +39,6 @@ run-qemu: bios.bin
 
 .PHONY: clean
 clean:
-	rm -f $(OBJS) bios.bin
+	rm -f *.o *.d *.bin
+
+-include $(DEPS)
