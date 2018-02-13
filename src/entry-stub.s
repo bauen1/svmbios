@@ -1,5 +1,6 @@
 [BITS 16]
-section main
+section .text
+
 global _init:function (_init.end - _init)
 _init:
 	cli
@@ -18,6 +19,7 @@ _init:
 	mov ss, ax
 
 	call disable_nmi
+	call enable_a20
 
 	mov al, '!'
 	call debug_putc
@@ -44,6 +46,18 @@ enable_nmi:
 	in al, 0x70
 	and al, 0x7F
 	out 0x70, al
+	ret
+.end:
+
+global enable_a20:function (enable_a20.end - enable_a20)
+enable_a20:
+	in al, 0x92
+	test al, 2
+	jnz .done
+	or al, 2
+	and al, 0xFE
+	out 0x92, al
+.done:
 	ret
 .end:
 

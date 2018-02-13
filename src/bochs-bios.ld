@@ -9,9 +9,11 @@ MEMORY {
 
 SECTIONS {
 	ENTRY(_init)
-	.main : {
-		*(main)
-	} > ROM
+
+	.text : {
+		*(.text)
+		*(.rodata)
+	}
 
 	.reset rom_end - 0x10 : ALIGN(0x10){
 		*(reset)
