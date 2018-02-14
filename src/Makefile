@@ -9,6 +9,7 @@ AS:= nasm
 ASFLAGS:= -felf -g -Fdwarf
 LD:= ld
 LDFLAGS:= -m elf_i386
+OBJCOPY:= objcopy
 
 # Add objs here
 OBJS:=entry-stub.o gdt.o main.o idt_load.o isrs.o idt.o console.o cpu.o
@@ -20,8 +21,11 @@ DEPS:=$(OBJS:.o=.d)
 %.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $< -MD
 
-bios.bin: bios.ld $(OBJS)
+bios.elf: bios.ld $(OBJS)
 	$(LD) $(LDFLAGS) -T $< -o $@ $(OBJS)
+
+bios.bin: bios.elf
+	$(OBJCOPY) -O binary $< $@
 
 .PHONY: all-qemu
 all-qemu: bios.bin

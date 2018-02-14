@@ -1,4 +1,3 @@
-OUTPUT_FORMAT(binary)
 
 rom_start = 0xFFFF0000;
 rom_end   = 0xFFFFFFFF;

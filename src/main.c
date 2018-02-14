@@ -1,6 +1,7 @@
 #include <stdint.h>
 
 #include <console.h>
+#include <cpu.h>
 #include <idt.h>
 
 typedef struct {
@@ -29,6 +30,8 @@ typedef struct {
 } __attribute__((packed)) registers_t;
 
 void *handle_isr(registers_t *regs) {
+	printf("encountered interrupt: 0x%x\n", regs->isr_num);
+	halt();
 	return;
 }
 
