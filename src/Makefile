@@ -11,7 +11,7 @@ LD:= ld
 LDFLAGS:= -m elf_i386
 
 # Add objs here
-OBJS:=entry-stub.o gdt.o hello_world.o
+OBJS:=entry-stub.o gdt.o hello_world.o idt_load.o isrs.o idt.o
 DEPS:=$(OBJS:.o=.d)
 
 %.o: %.s
