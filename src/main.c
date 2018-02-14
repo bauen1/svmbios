@@ -1,17 +1,7 @@
-#include <idt.h>
 #include <stdint.h>
 
-static void outb(uint16_t port, uint8_t data) {
-        __asm__ __volatile("outb %0, %1" : : "a" (data), "dN" (port));
-}
-
-#define debug_out(c) ((void)outb(0xe9,(c)))
-
-static void debug_puts(const char *s) {
-	for (int i = 0; s[i] != 0; i++) {
-		debug_out(s[i]);
-	}
-}
+#include <console.h>
+#include <idt.h>
 
 typedef struct {
 	uint32_t gs __attribute__((packed));
@@ -43,26 +33,6 @@ void *handle_isr(registers_t *regs) {
 }
 
 void main() {
-	debug_puts("Hello world!\n");
+	printf("hello world! (%s)\n0x%x\n", "printf", 0xDEADBEEF);
 	idt_install();
-	debug_out('H');
-	debug_out('e');
-	debug_out('l');
-	debug_out('l');
-	debug_out('o');
-	debug_out(' ');
-	debug_out('W');
-	debug_out('o');
-	debug_out('r');
-	debug_out('l');
-	debug_out('d');
-	debug_out(' ');
-	debug_out('f');
-	debug_out('r');
-	debug_out('o');
-	debug_out('m');
-	debug_out(' ');
-	debug_out('C');
-	debug_out('!');
-	debug_out('\n');
 }

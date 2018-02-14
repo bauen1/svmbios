@@ -33,11 +33,6 @@ _init:
 .end:
 
 section .text
-global debug_putc:function (debug_putc.end - debug_putc)
-debug_putc:
-	out 0xe9, al
-	ret
-.end:
 
 global disable_nmi:function (disable_nmi.end - disable_nmi)
 disable_nmi:
@@ -67,14 +62,6 @@ enable_a20:
 	ret
 .end:
 
-global _halt:function (_halt.end - _halt)
-_halt:
-	cli
-.loop:
-	hlt
-	jmp .loop
-.end:
-
 [BITS 32]
 extern main
 global b32:function (b32.end - b32)
@@ -89,10 +76,15 @@ b32:
 
 	call main
 
+	jmp _halt
+.end:
+
+global _halt:function (_halt.end - _halt)
+_halt:
 	cli
-.halt:
+.loop:
 	hlt
-	jmp .halt
+	jmp .loop
 .end:
 
 section reset
