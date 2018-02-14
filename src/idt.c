@@ -4,11 +4,11 @@
 #include <idt_load.h>
 #include <isrs.h>
 
-static idt_entry_t idt[256] = {0};
+static idt_entry_t idt[256];
 static struct {
 	uint16_t limit __attribute__((packed));
 	uint32_t base __attribute__((packed));
-} __attribute__((packed)) lgdt_ptr;
+} __attribute__((packed)) lidt_ptr;
 
 void idt_set_gate(uint8_t i, void *isr, uint16_t selector, uint8_t flags) {
 	uint32_t offset = (uint32_t)isr;
@@ -20,9 +20,13 @@ void idt_set_gate(uint8_t i, void *isr, uint16_t selector, uint8_t flags) {
 }
 
 void idt_install() {
-	lgdt_ptr.limit = sizeof(idt) - 1;
-	lgdt_ptr.base = (uint32_t)&idt;
-	idt_load((uintptr_t)lgdt_ptr);
+	lidt_ptr.limit = sizeof(idt) - 1;
+	lidt_ptr.base = (uint32_t)&idt;
+	idt_load((uintptr_t)&lidt_ptr);
+
+	for (int i = 0; i < 256; i++) {
+		idt_set_gate(i, 0, 0, 0);
+	}
 
 	// Exceptions
 	idt_set_gate(  0,  _isr0, 0x08, 0x8E);

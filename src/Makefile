@@ -4,7 +4,7 @@
 
 CC:= gcc
 #CC:= tcc
-CFLAGS:= -I ./include -ffreestanding -nostdlib
+CFLAGS:= -I ./include -ffreestanding -nostdlib -g
 AS:= nasm
 ASFLAGS:= -felf -g -Fdwarf
 LD:= ld
@@ -40,6 +40,9 @@ run-bochs: bios.bin bochs.cfg
 .PHONY: run-qemu
 run-qemu: bios.bin
 	qemu-system-i386 -bios bios.bin -debugcon stdio
+
+.PHONY: all
+all: bios.bin
 
 .PHONY: clean
 clean:
