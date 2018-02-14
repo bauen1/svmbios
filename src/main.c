@@ -38,7 +38,6 @@ void *handle_isr(registers_t *regs) {
 void main() {
 	printf("hello world! (%s)\n0x%x\n", "printf", 0xDEADBEEF);
 	idt_install();
-	printf("%i\n", 10/0);
 	while (1) {
 		__asm__ __volatile__ ("sti");
 		__asm__ __volatile__ ("hlt");

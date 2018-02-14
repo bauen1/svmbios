@@ -63,6 +63,8 @@ enable_a20:
 .end:
 
 [BITS 32]
+extern __bss_start, __bss_end
+extern __data_start, __data_end, __data_load_start
 extern main
 global b32:function (b32.end - b32)
 b32:
@@ -73,6 +75,20 @@ b32:
 	mov gs, ax
 	mov ss, ax
 	mov esp, 0x7000
+
+	; zero .bss
+	mov al, 0
+	mov edi, __bss_start
+	mov ecx, __bss_end
+	sub ecx, edi
+	rep stosb
+
+	; copy .data
+	mov edi, __data_start
+	mov esi, __data_load_start
+	mov ecx, __data_end
+	sub ecx, esi
+	rep movsb
 
 	call main
 
